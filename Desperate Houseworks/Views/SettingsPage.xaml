@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Desperate_Houseworks.Views.SettingsPage">
+
+    <Shell.TitleView>
+        <StackLayout 
+            HorizontalOptions="StartAndExpand"
+            VerticalOptions="CenterAndExpand" >
+            <Label 
+                Text="Impostazioni"
+                FontSize="20"
+                TextColor="White"
+                FontAttributes="Bold"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand" >
+            </Label>
+        </StackLayout>
+
+    </Shell.TitleView>
+
+    <ScrollView>
+        <StackLayout Spacing="0">
+
+            <Label 
+                HeightRequest="30" 
+                BackgroundColor="LightGray" 
+                TextColor="Black" 
+                Padding="10,5,0,0" 
+                FontSize="13" >
+                INTERAGISCI
+            </Label>
+
+            <Frame Padding="10,1,0,0" Margin="1,0">
+                <Button x:Name="Settings_Button4" 
+                    Padding="1"
+                    BorderWidth="0"
+                    Text ="Riporta un malfunzionamento"
+                    TextColor="Black"
+                    TextTransform="None"
+                    Font="Calibri"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="StartAndExpand"
+                    Clicked="TBAButton_Clicked"
+                />
+            </Frame>
+
+            <Frame Padding="10,1,0,0" Margin="1,1,0,0">
+                <Button x:Name="Settings_Button5" 
+                    Padding="1"
+                    BorderWidth="0"
+                    Text ="Valutaci sullo Store!"
+                    TextColor="Black"
+                    TextTransform="None"
+                    Font="Calibri"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="StartAndExpand"
+                    Clicked="TBAButton_Clicked"
+                />
+            </Frame>
+            <Label HeightRequest="30" 
+                   BackgroundColor="LightGray" 
+                   TextColor="Black" 
+                   Padding="10,5,0,0"  
+                   FontSize="13">
+                CONDIVIDI
+            </Label>
+
+            <Frame Padding="10,1,0,0" 
+                   Margin="1,1,0,0">
+                <Button 
+                    x:Name="Settings_Button6" 
+                    Padding="1"
+                    BorderWidth="0"
+                    Text ="Condividi Applicazione"
+                    TextColor="Black"
+                    TextTransform="None"
+                    Font="Calibri"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="StartAndExpand"
+                    Clicked="TBAButton_Clicked"
+                    />
+            </Frame>
+
+            <Label 
+                HeightRequest="30" 
+                BackgroundColor="LightGray" 
+                TextColor="Black" 
+                Padding="10,5,0,0"  
+                FontSize="13">
+                OPERAZIONI
+            </Label>
+
+            <Frame Padding="10,1,0,0" Margin="1">
+                <Button 
+                    x:Name="FamilyQuitButton"
+                    Padding="1"
+                    BorderWidth="0"
+                    Text ="Esci dalla famiglia"
+                    TextColor="Red"
+                    TextTransform="None"
+                    Font="Calibri"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="StartAndExpand"
+                    Clicked="FamilyQuitButton_Clicked"/>
+            </Frame>
+
+            <Frame Padding="10,1,0,0" Margin="1,0">
+                <Button 
+                    x:Name="LogOutButton" 
+                    Padding="1"
+                    BorderWidth="0"
+                    Text ="Effettua il Logout"
+                    TextColor="Red"
+                    TextTransform="None"
+                    Font="Calibri"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="StartAndExpand"
+                    Clicked="LogOutButton_Clicked"
+                />
+            </Frame>
+
+            <Label 
+                HorizontalOptions="Center" 
+                VerticalOptions="EndAndExpand" 
+                Padding="10">
+                Desperate Houseworks ©
+            </Label>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

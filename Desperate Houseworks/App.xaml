@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Desperate_Houseworks.App">
+    <!--
+        Define global resources and styles here, that apply to all pages in your app.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#0047AB</Color>
+            <!-- ContentPage -->
+            <Style
+                TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter
+                    Property="BackgroundColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="White"
+                            iOS="White" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--ActivityIndicator -->
+            <Style TargetType="ActivityIndicator">
+                <Setter Property="Color">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="{StaticResource Primary}"
+                            iOS="{StaticResource Primary}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- NavigationPage -->
+            <Style
+                TargetType="NavigationPage" ApplyToDerivedTypes="True">
+                <!-- Set BarTextColor color to NavigationPage depending on platform -->
+                <Setter
+                    Property="BarTextColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="White"
+                            iOS="White" />
+                    </Setter.Value>
+                </Setter>
+                <!-- Set BarBackgroundColor color to NavigationPage depending on platform -->
+                <Setter
+                    Property="BarBackgroundColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="{StaticResource Primary}"
+                            iOS="{StaticResource Primary}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Entry -->
+            <Style
+                TargetType="Entry" ApplyToDerivedTypes="True">
+                <Setter
+                    Property="TextColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Black"
+                            iOS="Black" />
+                    </Setter.Value>
+                </Setter>
+                <Setter
+                    Property="PlaceholderColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Gray"
+                            iOS="Gray"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Editor -->
+            <Style
+                TargetType="Editor" ApplyToDerivedTypes="True">
+                <Setter
+                    Property="TextColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="White"
+                            iOS="Black" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Picker -->
+            <Style
+                TargetType="Picker" ApplyToDerivedTypes="True">
+                <Setter
+                    Property="TextColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Black"
+                            iOS="Black" />
+                    </Setter.Value>
+                </Setter>
+                <Setter
+                    Property="TitleColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Gray"
+                            iOS="Gray"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- DatePicker -->
+            <Style
+                TargetType="DatePicker" ApplyToDerivedTypes="True">
+                <Setter
+                    Property="TextColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Black"
+                            iOS="Black" />
+                    </Setter.Value>
+                </Setter>
+                <Setter
+                    Property="Format" Value="dd/MM/yyyy">
+                </Setter>
+                <Setter
+                    Property="FontSize">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="x:Double"
+                            Android="18"
+                            iOS="20" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- TimePicker -->
+            <Style
+                TargetType="TimePicker" ApplyToDerivedTypes="True">
+                <Setter
+                    Property="TextColor">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="Color"
+                            Android="Black"
+                            iOS="Black" />
+                    </Setter.Value>
+                </Setter>
+                <Setter
+                    Property="Format" Value="HH:mm">
+                </Setter>
+                <Setter
+                    Property="FontSize">
+                    <Setter.Value>
+                        <OnPlatform
+                            x:TypeArguments="x:Double"
+                            Android="18"
+                            iOS="20" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Button-->
+            <Style TargetType="Button">
+                <Setter Property="BorderWidth" Value="1"></Setter>
+                <Setter Property="BorderColor" Value="LightGray"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="TextTransform" Value="None"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#332196F3" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:Desperate_Houseworks.ViewModels" 
+             xmlns:model="clr-namespace:Desperate_Houseworks.Models" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="Desperate_Houseworks.Views.NewTaskPage"
+             Shell.TabBarIsVisible="False"
+             Shell.NavBarHasShadow="True"
+             x:Name="NewTaskViewModelXAML">
+
+    <ContentPage.BindingContext>
+        <viewmodels:NewTaskViewModel/>
+    </ContentPage.BindingContext>
+
+    <Shell.TitleView>
+        <AbsoluteLayout>
+            <!-- Margine per metterlo in posizione corretta rispetto il back button originale -->
+            <Frame BackgroundColor="Transparent" CornerRadius="50"
+                   HorizontalOptions="Start"
+                   Margin="-20,0,0,0"
+                   AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+
+                <Image Source="left_arrow.png" 
+                       HorizontalOptions="Start" 
+                       WidthRequest="18"
+                       xct:IconTintColorEffect.TintColor="White"
+                       BackgroundColor="Transparent">
+
+                </Image>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OnClosePageCommand}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label Text="Nuovo Compito"
+                    FontSize="20"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand" 
+                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0.5,0.5,1,1">
+            </Label>
+        </AbsoluteLayout>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <model:ConvertitoreParametriCustom x:Key="ConverterCustom" />
+            <model:ConvertitoreParametriSaving x:Key="ConverterSaving" />
+            <model:ConvertitoreParametriCancelButton x:Key="ConverterCancelButton" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame 
+                BorderColor="LightGray" 
+                Margin="0,0,0,-5" 
+                CornerRadius="30">
+                <StackLayout>
+                    <xct:Expander 
+                        x:Name="ExpanderCustomTask"
+                        Tapped="ExpanderCustomTask_Tapped">
+                        <xct:Expander.Header>
+                            <Label 
+                                Text ="Compito Personalizzato" 
+                                FontSize="17" 
+                                FontAttributes="Bold" 
+                                HorizontalTextAlignment="Center">
+                            </Label>
+
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout Margin="20,0,20,0">
+
+                                <Label Text="Nome del Compito:" Margin="0,10,0,0"/>
+                                <Entry
+                                    Text=""
+                                    x:Name="EntryNameCust" 
+                                    Placeholder="Nome del Compito"  
+                                    Completed="OnEnterClicked"/>
+
+
+                                <Label Text="Categoria del Compito:" Margin="0,10,0,0"/>
+                                <Picker 
+                                    x:Name="CategoryPickerCust" 
+                                    SelectedIndex="{Binding Index_CategCustom}"
+                                    ItemsSource="{Binding CategsList}"
+                                    Title="Seleziona la categoria"/>
+
+                                <Label Text="Chi deve farlo?" Margin="0,10,0,0"/>
+                                <Picker 
+                                    x:Name="UserPickerCust" 
+                                    SelectedIndex="{Binding Index_UsersCustom}"
+                                    ItemsSource="{Binding UsersList}"
+                                    Title="Seleziona il nome"/>
+
+                                <StackLayout x:Name="StackTempo" HorizontalOptions="Fill" Orientation="Horizontal" >
+
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                                        <Label Text="Orario:"  VerticalOptions="Center"/>
+                                        <TimePicker x:Name="TimePickerCust" Time="12:00" />
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                        <Label Text="Data:" VerticalOptions="Center" />
+                                        <DatePicker x:Name="DatePickerCust" />
+                                    </StackLayout>
+
+                                </StackLayout>
+
+                                <Label Text="Descrizione" Margin="0,10,0,0"/>
+                                <Entry 
+                                    Text=""
+                                    x:Name="EntryDescrCust" 
+                                    Placeholder="Descrizione del tuo compito"
+                                    Margin="0,0,0,10"/>
+
+                                <Grid 
+                                    HorizontalOptions="Fill" 
+                                    ColumnSpacing="20" Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button 
+                                        Text="Cancella" 
+                                        TextColor="Black"
+                                        BorderWidth="0.4" 
+                                        BorderColor="LightGray"
+                                        BackgroundColor="White"   
+                                        HorizontalOptions="Fill" 
+                                        Padding="0.1" CornerRadius="10" 
+                                        Grid.Column="0" Grid.Row="0"
+                                        Command="{Binding OnCancelCustomCommand}">
+
+                                        <Button.CommandParameter>
+                                            <MultiBinding x:DataType="model:GenericTaskClass"
+                                                Converter="{StaticResource ConverterCustom}">
+                                                <Binding Source="{x:Reference EntryNameCust}" />
+                                                <Binding Source="{x:Reference EntryDescrCust}" />
+                                                <Binding Source="{x:Reference DatePickerCust}" />
+                                                <Binding Source="{x:Reference TimePickerCust}" />
+                                                <Binding Source="{x:Reference CategoryPickerCust}" />
+                                                <Binding Source="{x:Reference UserPickerCust}" />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+
+                                    <Button 
+                                        Text="Salva!" 
+                                        TextColor="White"  
+                                        BackgroundColor="{StaticResource Primary}" 
+                                        HorizontalOptions="Fill" 
+                                        Padding="0.1" CornerRadius="10"
+                                        Grid.Column="1" Grid.Row="0"
+                                        Command="{Binding OnSavingCustomCommand}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding x:DataType="model:GenericTaskClass"
+                                                Converter="{StaticResource ConverterCustom}">
+                                                <Binding Source="{x:Reference EntryNameCust}" />
+                                                <Binding Source="{x:Reference EntryDescrCust}" />
+                                                <Binding Source="{x:Reference DatePickerCust}" />
+                                                <Binding Source="{x:Reference TimePickerCust}" />
+                                                <Binding Source="{x:Reference CategoryPickerCust}" />
+                                                <Binding Source="{x:Reference UserPickerCust}" />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+
+                                </Grid>
+
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                    <ActivityIndicator
+                        HeightRequest="25" 
+                        IsVisible="{Binding CustomActivityRunning}"
+                        IsRunning="{Binding CustomActivityRunning}"/>
+                    <Image 
+                        x:Name="FrecciaCustom"
+                        Source="icon_freccia.png" 
+                        HorizontalOptions="CenterAndExpand" 
+                        BackgroundColor="Transparent" 
+                        Margin="5,0,0,0" 
+                        HeightRequest="11" 
+                        WidthRequest="30" >
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding CustomActivityRunning}" Value="true">
+                                <Setter Property="IsVisible" Value="false" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding CustomActivityRunning}" Value="false">
+                                <Setter Property="IsVisible" Value="true" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </StackLayout>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BlackFrame_Tapped"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+
+            <AbsoluteLayout 
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="FillAndExpand" >
+                <ListView 
+                    x:Name="ListViewGenericTasks"
+                    HasUnevenRows="True"
+                    BackgroundColor="Transparent"
+                    SelectionMode="None" 
+                    IsPullToRefreshEnabled="True"
+                    RefreshCommand="{Binding RefreshCommand}"
+                    IsRefreshing="{Binding IsBusy,Mode=OneWay}"
+                    SeparatorVisibility="None"
+                    AbsoluteLayout.LayoutFlags="All" 
+                    AbsoluteLayout.LayoutBounds="0,0,1,1" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:GenericTaskClass">
+                            <ViewCell>
+                                <!-- Elementi della lista -->
+                                <StackLayout>
+                                    <Frame 
+                                        CornerRadius="20" Margin="10,5"
+                                        BorderColor="LightGray">
+                                        <xct:Expander x:Name="MyExpander">
+                                            <xct:Expander.Header>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Image 
+                                                        Source="{Binding Icon}"
+                                                        BackgroundColor="Transparent"
+                                                        Margin="10,0,20,0"
+                                                        WidthRequest="50" HeightRequest="50"
+                                                        VerticalOptions="Center"/>
+                                                    <StackLayout Margin="0,10">
+                                                        <Label 
+                                                            x:Name="labelName" 
+                                                            FontSize="18" 
+                                                            FontAttributes="Bold" 
+                                                            Text="{Binding Name}"/>
+                                                        <Label x:Name="labelCateg" Text="{Binding Category}"/>
+                                                    </StackLayout>
+                                                    <Image 
+                                                        Rotation="{Binding BindingContext.ShowImageRotated,
+                                                        Source={x:Reference NewTaskViewModelXAML}}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        x:Name="FrecciaLaterale"
+                                                        Source="icon_frecciaPiccola.png"
+                                                        WidthRequest="30"
+                                                        Margin="20,0"/>
+                                                </StackLayout>
+                                            </xct:Expander.Header>
+                                            <xct:Expander.Content>
+                                                <StackLayout>
+                                                    <StackLayout 
+                                                        Margin="10,0"
+                                                        Orientation="Horizontal"
+                                                        HorizontalOptions="Fill">
+                                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                                                            <Label Text="Orario:" VerticalOptions="Center"/>
+                                                            <TimePicker x:Name="MyTimePicker" Time="12:00"/>
+                                                        </StackLayout>
+                                                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                                            <Label Text="Data:" VerticalOptions="Center"/>
+                                                            <DatePicker x:Name="MyDatePicker" />
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <StackLayout Margin="10,0">
+                                                        <Label Text="Utente:" VerticalOptions="Center"/>
+                                                        <Picker 
+                                                            x:Name="MyUserPicker" Title="Scegli il nome:"
+                                                            SelectedIndex="{Binding BindingContext.Index_UsersCustom,
+                                                            Source={x:Reference NewTaskViewModelXAML}}"
+                                                            ItemsSource="{Binding BindingContext.UsersList,
+                                                            Source={x:Reference NewTaskViewModelXAML}}"/>
+                                                    </StackLayout>
+                                                    <StackLayout Margin="10,0">
+                                                        <Label Text="Descrizione:" VerticalOptions="Center"/>
+                                                        <Entry x:Name="MyEntryDescr" Placeholder="Descrizione" Text=""/>
+                                                        <Grid HorizontalOptions="Fill" ColumnSpacing="20">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Button 
+                                                                Text="Cancella"
+                                                                BorderWidth="0.4"
+                                                                BorderColor="LightGray"
+                                                                TextColor="Black"  
+                                                                BackgroundColor="White"
+                                                                HorizontalOptions="Fill" 
+                                                                Padding="0.1" CornerRadius="10" 
+                                                                Grid.Column="0" Grid.Row="0"
+                                                                Command="{Binding BindingContext.OnCancelButtonCommand, 
+                                                                Source={x:Reference NewTaskViewModelXAML}}">
+                                                                <Button.CommandParameter>
+                                                                    <MultiBinding x:DataType="model:GenericTaskClass"
+                                                                        Converter="{StaticResource ConverterCancelButton}">
+                                                                        <Binding Source="{x:Reference MyEntryDescr}" />
+                                                                        <Binding Source="{x:Reference MyDatePicker}" />
+                                                                        <Binding Source="{x:Reference MyTimePicker}" />
+                                                                        <Binding Source="{x:Reference MyExpander}" />
+                                                                        <Binding Source="{x:Reference MyUserPicker}" />
+                                                                    </MultiBinding>
+                                                                </Button.CommandParameter>
+                                                            </Button>
+                                                            <Button 
+                                                                Text="Salva!" 
+                                                                BackgroundColor="{StaticResource Primary}" 
+                                                                TextColor="White"  
+                                                                HorizontalOptions="Fill" 
+                                                                Padding ="0.1" CornerRadius="10" 
+                                                                Grid.Column="1" Grid.Row="0"
+                                                                Command="{Binding BindingContext.OnSavingCommand,
+                                                                Source={x:Reference NewTaskViewModelXAML}}">
+                                                                <Button.CommandParameter>
+                                                                    <MultiBinding x:DataType="model:GenericTaskClass"
+                                                                        Converter="{StaticResource ConverterSaving}">
+                                                                        <Binding Source="{x:Reference labelName}"/>
+                                                                        <Binding Source="{x:Reference labelCateg}"/>
+                                                                        <Binding Source="{x:Reference MyEntryDescr}"/>
+                                                                        <Binding Source="{x:Reference MyDatePicker}"/>
+                                                                        <Binding Source="{x:Reference MyTimePicker}"/>
+                                                                        <Binding Source="{x:Reference MyExpander}"/>
+                                                                        <Binding Source="{x:Reference MyUserPicker}" />
+                                                                    </MultiBinding>
+                                                                </Button.CommandParameter>
+                                                            </Button>
+                                                        </Grid>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </xct:Expander.Content>
+                                        </xct:Expander>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <ActivityIndicator
+                AbsoluteLayout.LayoutFlags="All" 
+                AbsoluteLayout.LayoutBounds="0.5,0.9,0.1,0.1" 
+                IsVisible="{Binding ActivityRunning}"
+                IsRunning="{Binding ActivityRunning}"/>
+
+                <Frame
+                    AbsoluteLayout.LayoutFlags="All" 
+                    AbsoluteLayout.LayoutBounds="0,0,1,1" 
+                    BackgroundColor="Black" 
+                    IsVisible="{Binding SchermoOpaco_Visible}"
+                    Opacity="0.8"
+                    VerticalOptions="FillAndExpand">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BlackFrame_Tapped"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </AbsoluteLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

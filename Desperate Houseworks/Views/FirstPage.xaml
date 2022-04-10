@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Desperate_Houseworks.Views.FirstPage"
+             BackgroundColor="{StaticResource Primary}"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False">
+    
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Fill">
+            
+            <StackLayout VerticalOptions="Start">
+                <Image Source="logo2_bianco.png"
+                       WidthRequest="100"
+                       HorizontalOptions="Start"
+                       Margin="50,50,0,0"/>
+            </StackLayout>
+            
+        <StackLayout VerticalOptions="EndAndExpand" Margin="25,25,25,30" >
+            <Label Text="Desperate Houseworks" FontSize="30" TextColor="White"/>
+            
+            <Label x:Name="LabelPresentazione" TextColor="White" FontSize="15"/>
+            
+            <Button Text="Accedi" 
+                    BackgroundColor="White" 
+                    TextColor="{StaticResource Primary}"
+                    BorderColor="{StaticResource Primary}"
+                    BorderWidth="1"
+                    Clicked="LogIn"
+                    CornerRadius="10"
+                    Margin="0,30,0,5"/>
+            
+            <Button Text="Iscriviti" 
+                    BackgroundColor="{StaticResource Primary}" 
+                    TextColor="White"
+                    BorderColor="White" 
+                    BorderWidth="1"
+                    Clicked="SignIn"
+                    CornerRadius="10"/>
+        </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:Desperate_Houseworks.Views" 
+       xmlns:desperate_houseworks_project="clr-namespace:Desperate_Houseworks" 
+       x:DataType="desperate_houseworks_project:AppShell"
+       Title="desperate_houseworks_project"
+       x:Class="Desperate_Houseworks.AppShell">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary} "/>
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="White " />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="Gray"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <ShellItem Route = "first">
+        <ShellContent ContentTemplate="{DataTemplate local:FirstPage}" Route="FirstPage"/>
+    </ShellItem>
+
+    <TabBar x:Name="TabBar" Route="main">
+        <ShellContent  Icon="icon_compiti.png"         
+                       ContentTemplate="{DataTemplate local:MainTaskPage}" Route="MainTaskPage"/>
+        <ShellContent  Icon="aggiungiTask.png"         
+                       ContentTemplate="{DataTemplate local:NewTaskPage }" />
+        <ShellContent  Icon="icon_profilo.png"         
+                       ContentTemplate="{DataTemplate local:ProfilePage}" />
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:Desperate_Houseworks.ViewModels" 
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:model="clr-namespace:Desperate_Houseworks.Models" 
+    x:Class="Desperate_Houseworks.Views.MainTaskPage"
+    x:Name="MainTaskPageXAML">
+
+    <ContentPage.BindingContext>
+        <viewmodels:MainTaskViewModel/>
+    </ContentPage.BindingContext>
+
+    <Shell.TitleView>
+        <StackLayout 
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand" >
+            <Label 
+                Text="Compiti Giornalieri"
+                FontSize="20"
+                TextColor="White"
+                FontAttributes="Bold"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand" >
+            </Label>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <StackLayout>
+
+        <StackLayout>
+            <!-- Messaggio di benvenuto ad utente -->
+            <StackLayout 
+                Orientation="Horizontal" 
+                Margin="10,10,10,0">
+                <StackLayout 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Center">
+                    <Label 
+                        Text="{Binding Nickname,
+                        StringFormat='{}Ciao, {0}!'}"
+                        VerticalOptions="CenterAndExpand" 
+                        TextColor="Black"
+                        FontSize="20" />
+                    <Label 
+                        Text="{Binding DateToday,
+                        StringFormat='{}Oggi è {0}'}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" 
+                        FontSize="18"
+                        FontAttributes="Bold"/>
+                </StackLayout>
+
+                <!-- Bottone navigazione LogTaskPage -->
+                <Frame 
+                    BackgroundColor="Transparent"
+                    BorderColor="LightGray"
+                    HorizontalOptions="EndAndExpand"
+                    CornerRadius="60"
+                    Padding="10">
+                    <Image 
+                        Source="icon_feed.png"
+                        Margin="3"
+                        WidthRequest="30"
+                        HeightRequest="30"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogTaskPageOpenCommand}"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </StackLayout>
+        </StackLayout>
+
+        <AbsoluteLayout
+            HorizontalOptions="FillAndExpand" 
+            VerticalOptions="FillAndExpand">
+
+            <ListView 
+                AbsoluteLayout.LayoutFlags="All" 
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                x:Name="ListViewUserTask"
+                HasUnevenRows="True"
+                BackgroundColor="Transparent"
+                SelectionMode="None"
+                SeparatorVisibility="None"
+                IsPullToRefreshEnabled="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsBusy,Mode=OneWay}"
+                ItemTapped="ListViewUserTask_ItemTapped"
+                IsGroupingEnabled="True"
+                GroupDisplayBinding="{Binding Key}"
+                ItemsSource="{Binding TasksGroups}">
+
+                <!-- Header della ListView-->
+                <ListView.Header>
+                    <StackLayout 
+                        Orientation="Horizontal" >
+
+                        <!-- Bottoni filtri elementi della collezione-->
+                        <StackLayout Margin="10,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand">
+
+                            <!-- Label per 'raddrizzare' i bottoni -->
+                            <Label HorizontalOptions="Center"/>
+
+                            <Button 
+                                Command="{Binding GoToTodaysTaskButton}"
+                                CommandParameter="{Binding Source={x:Reference ListViewUserTask}}"
+                                Text="Compiti Giornalieri"
+                                TextColor="Black"
+                                FontSize="16"
+                                BackgroundColor="Transparent"
+                                CornerRadius="500"
+                                BorderColor="Black"
+                                BorderWidth="1"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                        <StackLayout Margin="10,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand">
+                            <Label 
+                                Text=" Filtri:"
+                                TextColor="Black"
+                                HorizontalOptions="Center"/>
+                            <StackLayout Orientation="Horizontal">
+                                <ImageButton 
+                                    Source="taskDone.png" Margin="5,0"
+                                    Command ="{Binding ChangeVerifiedCommand}"
+                                    BackgroundColor="Transparent"
+                                    Padding="6" CornerRadius="20"
+                                    WidthRequest="50" HeightRequest="50"                                            
+                                    VerticalOptions="Center" 
+                                    HorizontalOptions="EndAndExpand">
+                                    <ImageButton.Triggers>
+                                        <DataTrigger TargetType="ImageButton" Binding="{Binding FiltroVerifica}" Value="true">
+                                            <Setter Property="xct:IconTintColorEffect.TintColor" Value="#77C159" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="ImageButton" Binding="{Binding FiltroVerifica}" Value="false">
+                                            <Setter Property="xct:IconTintColorEffect.TintColor" Value="Gray" />
+                                        </DataTrigger>
+                                    </ImageButton.Triggers>
+                                </ImageButton>
+
+                                <Button 
+                                    Text="{Binding RaggruppamentoName}"
+                                    FontSize="16"
+                                    TextColor="Black"
+                                    BorderColor="Black"
+                                    BorderWidth="1"
+                                    VerticalOptions="Center"
+                                    CornerRadius="100"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding ChangeGroupingCommand}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </ListView.Header>
+
+                <!-- Header del grouping dei compiti -->
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label 
+                                    Text="{Binding Key}" 
+                                    FontAttributes="Bold"  
+                                    VerticalOptions="CenterAndExpand"
+                                    Margin="10"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+
+                <!-- Contenuto della CollectionView-->
+                <ListView.ItemTemplate>
+                    <DataTemplate 
+                        x:DataType="model:UserTaskClass">
+                        <ViewCell>
+
+                            <StackLayout Padding="5">
+                                <Frame CornerRadius="20" Margin="5,0" BorderColor="LightGray">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <!-- Orario e Icona Task -->
+                                            <StackLayout Margin ="10,0,30,0" VerticalOptions="Center">
+                                                <Image HeightRequest="50"
+                                                    WidthRequest="50"
+                                                    Source="{Binding Icon}">
+                                                </Image>
+                                            </StackLayout>
+
+                                            <!-- Categoria, Nome e Descrizione Task -->
+                                            <StackLayout 
+                                                HorizontalOptions="StartAndExpand" 
+                                                VerticalOptions="CenterAndExpand">
+                                                <Frame 
+                                                    BackgroundColor="{Binding Color}" 
+                                                    CornerRadius="20"
+                                                    Padding="6"
+                                                    HorizontalOptions="Start">
+                                                    <Label 
+                                                        Text="{Binding Category}"
+                                                        TextColor="Black"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="Center"/>
+                                                </Frame>
+                                                <Label Text="{Binding Name}" TextColor="Black"/>
+                                                <Label Text="{Binding Date,StringFormat='{0:HH:mm}'}">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label"
+                                                            Binding="{Binding BindingContext.RaggruppamentoName, 
+                                                            Source={x:Reference MainTaskPageXAML}}" Value="Giorni">
+                                                            <Setter Property="Text" Value="{Binding Date,StringFormat='{0:HH:mm}'}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" 
+                                                            Binding="{Binding BindingContext.RaggruppamentoName, 
+                                                            Source={x:Reference MainTaskPageXAML }}" Value="Categorie">
+                                                            <Setter Property="Text"  Value="{Binding Date, StringFormat='{0:HH:mm, dd MM yyyy}'}" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Label Text="{Binding Description}" IsVisible="{Binding IsTapped}"/>
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <!-- Icone azioni su Task -->
+                                        <StackLayout HorizontalOptions="EndAndExpand" >
+                                            <ImageButton Source="taskDone.png"
+                                                 Command="{Binding BindingContext.DoneTaskCommand,
+                                                 Source={x:Reference MainTaskPageXAML}}" 
+                                                 CommandParameter="{Binding .}"
+                                                 Margin="5,0"
+                                                 BackgroundColor="Transparent"
+                                                 Padding="6" CornerRadius="20"
+                                                 WidthRequest="50" HeightRequest="50"                                            
+                                                 VerticalOptions="Center" 
+                                                 HorizontalOptions="EndAndExpand">
+                                                <ImageButton.Triggers>
+                                                    <DataTrigger TargetType="ImageButton" Binding="{Binding Verified}" Value="true">
+                                                        <Setter Property="xct:IconTintColorEffect.TintColor" Value="#77C159" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="ImageButton" Binding="{Binding Verified}" Value="false">
+                                                        <Setter Property="xct:IconTintColorEffect.TintColor" Value="Gray" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="ImageButton" Binding="{Binding Verified}" Value="true">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="ImageButton" Binding="{Binding Verified}" Value="false">
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                    </DataTrigger>
+                                                </ImageButton.Triggers>
+                                            </ImageButton>
+
+                                            <ImageButton 
+                                                Source="XrossaPiccola.png"
+                                                WidthRequest="50" HeightRequest="50"                                            
+                                                Margin="5,0" 
+                                                IsVisible="{Binding IsTapped}"
+                                                BackgroundColor="Transparent"
+                                                Padding="6" CornerRadius="20"
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="EndAndExpand"
+                                                Command="{Binding BindingContext.CancelTaskCommand,
+                                                Source={x:Reference MainTaskPageXAML}}" 
+                                                CommandParameter="{Binding .}">
+                                                <ImageButton.Triggers>
+                                                    <DataTrigger TargetType="ImageButton" Binding="{Binding Verified}" Value="True">
+                                                        <Setter Property="IsVisible" Value="False" />
+                                                    </DataTrigger>
+                                                </ImageButton.Triggers>
+                                            </ImageButton>
+
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+            <Label 
+            AbsoluteLayout.LayoutFlags="All" 
+            AbsoluteLayout.LayoutBounds="0.5,0.5,1,1"
+            Text="Non ci sono compiti da mostrare!"
+            TextColor="Black"
+            FontSize="16"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="CenterAndExpand"
+            IsVisible="{Binding ListaVuota}"/>
+        </AbsoluteLayout>
+    </StackLayout>
+
+</ContentPage>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Desperate_Houseworks.Models" 
+             xmlns:viewmodels="clr-namespace:Desperate_Houseworks.ViewModels"
+             x:Class="Desperate_Houseworks.Views.FamilyPage"
+             >
+
+    <ContentPage.BindingContext>
+        <viewmodels:FamilyViewModel/>
+    </ContentPage.BindingContext>
+    
+    <Shell.TitleView>
+        <StackLayout 
+            HorizontalOptions="StartAndExpand"
+            VerticalOptions="CenterAndExpand" >
+            <Label 
+                Text="La tua famiglia" FontSize="20"
+                TextColor="White"
+                FontAttributes="Bold"
+                VerticalOptions="CenterAndExpand">
+            </Label>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <ContentPage.Content>
+
+        <ListView 
+            x:Name="ListViewFamilyPage" 
+            BackgroundColor="Transparent"
+            SeparatorVisibility="None"
+            HasUnevenRows="True"
+            SelectionMode="None"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            RefreshCommand="{Binding RefreshCommand}"
+            ItemsSource="{Binding ListFamilyMembers}"
+            ItemTapped="GoToMemberProfile_ItemTapped"
+            VerticalOptions="StartAndExpand"
+            Margin="0,20">
+
+            <ListView.Header>
+                <StackLayout>
+                    <Label 
+                        x:Name="LabelFamilyName" 
+                        IsVisible="{Binding LabelVisible}"
+                        Text="{Binding FamilyName}"
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" 
+                        FontSize="25" Padding="0,0,0,20"/>
+                    <ActivityIndicator 
+                        x:Name="ActivityIndicator"
+                        IsRunning="{Binding ActivityRunning}"
+                        IsVisible="{Binding ActivityVisible}"/>
+                </StackLayout>
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell x:DataType="models:FamilyMemberView">
+                        <Grid Padding="5">
+                            <Frame CornerRadius="20" Margin="10,0">
+                                <StackLayout Orientation="Horizontal">
+                                    <Image 
+                                        Source="{Binding StringPicture}"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Margin="0,0,30,0"/>
+                                    <Label 
+                                        Text="{Binding Nickname}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        FontSize="Large"/>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <StackLayout 
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand" 
+                    Orientation="Horizontal"
+                    Margin="20">
+                    <Button 
+                        Text="Aggiungi un membro alla famiglia" 
+                        Clicked="AddFamilyButton_Clicked"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="CenterAndExpand" 
+                        TextColor="White"
+                        CornerRadius="10"
+                        Margin="0,0,10,0"/>
+                    <ImageButton 
+                        Command="{Binding ChangeFamilyNameCommand}"
+                        Source="icon_matita.png"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="CenterAndExpand" 
+                        BackgroundColor="Transparent"
+                        WidthRequest="25"/>
+                </StackLayout>
+            </ListView.Footer>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Desperate_Houseworks.Views.RegisterPage"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.BackgroundColor="{StaticResource Primary}">
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Label Text="Crea un 
+                       
+                       nuovo account" 
+                       VerticalOptions="End" 
+                       FontSize="30" 
+                       Margin="20,20,20,30"/>
+            </StackLayout>
+
+            <StackLayout 
+                Padding="10,0,10,0" 
+                VerticalOptions="EndAndExpand"
+                Margin="25,25,25,30">
+
+                <Entry x:Name="Username" Placeholder="Username"/>
+
+                <Entry x:Name="Email" Placeholder="Email" Keyboard="Email"/>
+
+                <Entry 
+                    Text=""
+                    x:Name="Password" 
+                    Placeholder="Password" 
+                    IsPassword="True"
+                    TextChanged="Password_TextChanged"/>
+
+                <Entry 
+                    Text=""
+                    x:Name="PasswordRepeat" 
+                    Placeholder="Ripeti Password" 
+                    IsPassword="True" 
+                    TextChanged="Password_TextChanged"/>
+
+                <Label 
+                    x:Name="LabelPasswords"
+                    IsVisible="False"
+                    Text="Le due passwords non coicidono"
+                    Margin="0,0,0,10"/>
+
+                <ActivityIndicator 
+                    x:Name="ActivityIndicator" 
+                    IsRunning="False" 
+                    IsVisible="False"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center"/>
+                
+                <Button 
+                    x:Name="RegisterButton"
+                    VerticalOptions="Center" 
+                    Text="Registrati" 
+                    Clicked="RegisterButton_Clicked"
+                    TextColor="White"
+                    BorderColor="{StaticResource Primary}"
+                    CornerRadius="10"/>
+                
+                <Label Text="oppure" HorizontalOptions="Center" FontSize="14"/>
+                
+                <Button 
+                    Text="Accedi"
+                    VerticalOptions="Center"  
+                    Clicked="NavigationLoginButton_Clicked"
+                    BackgroundColor="White"
+                    TextColor="Gray"
+                    CornerRadius="10"/>
+                
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

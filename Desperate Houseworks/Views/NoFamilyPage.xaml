@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:views="clr-namespace:Desperate_Houseworks.Views"
+             x:Class="Desperate_Houseworks.Views.NoFamilyPage">
+
+    <ContentPage.Content>
+        <ListView 
+            x:Name="ListViewNoFamily" 
+            HasUnevenRows="True"
+            BackgroundColor="Transparent"
+            SeparatorVisibility="None"
+            IsPullToRefreshEnabled="True"
+            Refreshing="ListViewNoFamily_Refreshing"
+            SelectionMode="None"
+            ItemTapped="ListViewNoFamily_ItemTapped"
+            VerticalOptions="StartAndExpand" Margin="0,20">
+
+            <ListView.Header>
+                <Label 
+                    FontSize="20"
+                    Text="Inviti in famiglia" Padding="0,0,0,20"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"/>
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+
+                <DataTemplate x:DataType="views:FamilyRequestView">
+                    <ViewCell>
+                        <Grid Padding="5">
+                            <Frame CornerRadius="20"
+                               Margin="10,0">
+                                <StackLayout Orientation="Horizontal">
+                                    <Image 
+                                        Source="{Binding Icon}"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Margin="0,0,30,0"/>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding UserAsking}"/>
+                                                    <Span Text=" ti ha invitato ad unirti nella famiglia: "/>
+                                                    <Span Text="{Binding FamilyName}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <StackLayout>
+                    <ActivityIndicator 
+                        x:Name="ActivityIndicator" IsVisible="false" IsRunning="False" 
+                        HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Button 
+                        x:Name="CreateFamilyButton"  
+                        Clicked="CreateNewFamilyClicked"
+                        Text="Crea una nuova famiglia!"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="CenterAndExpand" 
+                        Margin="0,20,0,0"/>
+                </StackLayout>
+            </ListView.Footer>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

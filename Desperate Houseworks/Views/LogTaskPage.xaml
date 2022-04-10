@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Desperate_Houseworks.ViewModels"  
+             x:Class="Desperate_Houseworks.Views.LogTaskPage">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LogTaskViewModel/>
+    </ContentPage.BindingContext>
+
+    <Shell.TitleView>
+        <StackLayout 
+            HorizontalOptions="StartAndExpand"
+            VerticalOptions="CenterAndExpand">
+            <Label 
+                Text="Eventi" FontSize="20"
+                TextColor="White"
+                FontAttributes="Bold"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand">
+            </Label>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <ContentPage.Content>
+
+        <RefreshView 
+            x:Name="RefreshLogView"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            Command="{Binding RefreshLogsCommand}">
+
+            <CollectionView 
+                x:Name="LogListView"
+                IsGrouped="True"
+                ItemsSource="{Binding ListaLog}"
+                SelectionMode="None">
+
+                <!--Etichetta in caso di schermata vuota-->
+                <CollectionView.EmptyView>
+                    <StackLayout 
+                        Margin="10,40">
+                        <Label 
+                            Text="Non ci sono compiti da mostrare!" 
+                            HorizontalOptions="CenterAndExpand" 
+                            VerticalOptions="StartAndExpand"
+                            FontSize="16"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <!-- Header del grouping -->
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Label Text="{Binding Key}" 
+                                   VerticalOptions="CenterAndExpand" 
+                                   Margin="10" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+
+                <!-- Elementi iniziali della pagina -->
+                <CollectionView.Header>
+                    <StackLayout>
+                        <StackLayout 
+                            Orientation="Horizontal" 
+                            Margin="10" VerticalOptions="Start">
+                            <Label 
+                                Text="Storico dei compiti della famiglia:"
+                                VerticalOptions="CenterAndExpand"
+                                FontSize="16"/>
+                            <StackLayout HorizontalOptions="EndAndExpand">
+                                <Label Text="Visualizzazione:" HorizontalOptions="CenterAndExpand"/>
+                                <Button 
+                                    Text="{Binding TestoFiltro}"
+                                    BorderColor="LightGray"
+                                    BorderWidth="0.4"
+                                    TextColor="Black"
+                                    BackgroundColor="White"
+                                    CornerRadius="20"
+                                    Command="{Binding ChangeFilterCommand}"/>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <!--Bottoni per impostare data iniziale e finale -->
+                        <StackLayout 
+                            Orientation="Horizontal" 
+                                 VerticalOptions="StartAndExpand" >
+
+                            <Frame x:Name="FrameDateBegins" CornerRadius="20" Margin="10,10,5,10">
+                                <StackLayout 
+                                    Orientation="Horizontal" 
+                                    VerticalOptions="CenterAndExpand">
+                                    <Image 
+                                        Source="icon_calendar.png" 
+                                        HorizontalOptions="Center" 
+                                        WidthRequest="45" 
+                                        Margin="0,0,5,0"/>
+                                    <StackLayout HorizontalOptions="CenterAndExpand">
+                                        <Label Text="Data di inizio:"/>
+                                        <Label 
+                                            Text="{Binding PeriodBegins,StringFormat='{0:dd/MM/yyyy}'}" 
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            MaxLines="1"/>
+                                        <!-- una questione di estetica -->
+                                        <DatePicker 
+                                            DateSelected="PickerBeginsDate_DateSelected"
+                                            x:Name="PickerBeginsDate"
+                                            Date="{Binding PeriodBegins}"
+                                            IsVisible="False"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="FrameDateBegins_Tapped"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                            <Frame x:Name="FrameDateEnds" CornerRadius="20" Margin="5,10,0,10">
+                                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                    <Image 
+                                        Source="icon_calendar.png" 
+                                        HorizontalOptions="Center"
+                                        WidthRequest="45" Margin="0,0,5,0"/>
+                                    <StackLayout HorizontalOptions="Center">
+                                        <Label Text="Data di fine:"/>
+                                        <Label 
+                                            Text="{Binding PeriodEnds,StringFormat='{0:dd/MM/yyyy}'}"
+                                            TextColor="Black" 
+                                            FontAttributes="Bold" MaxLines="1"/>
+                                        <!--Per una questione di estetica-->
+                                        <DatePicker 
+                                            DateSelected="PickerEndsDate_DateSelected"
+                                            x:Name="PickerEndsDate" 
+                                            MinimumDate="{Binding PeriodBegins}"
+                                            Date="{Binding PeriodEnds}" 
+                                            IsVisible="False"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="FrameDateEnds_Tapped"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                        </StackLayout>
+                    </StackLayout>
+                </CollectionView.Header>
+
+                <!-- Contenuto della CollectionView -->
+                <CollectionView.ItemTemplate >
+                    <DataTemplate>
+                        <StackLayout>
+                            <Frame 
+                                BackgroundColor="{Binding VerifiedColor}" 
+                                CornerRadius="1000" 
+                                Margin="10,5">
+                                <StackLayout 
+                                    Orientation="Horizontal">
+                                    <StackLayout 
+                                        Orientation="Horizontal" 
+                                        HorizontalOptions="StartAndExpand" 
+                                        Margin="10,0,0,0">
+                                        <Image 
+                                            Source="{Binding IconUser}" 
+                                            WidthRequest="50" HeightRequest="50"
+                                            Margin="0,0,10,0"/>
+                                        <StackLayout Orientation="Vertical">
+                                            <Label 
+                                                Text="{Binding Nickname}" 
+                                                LineBreakMode="TailTruncation" 
+                                                WidthRequest="100"/>
+                                            <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <StackLayout 
+                                        Orientation="Horizontal"
+                                        HorizontalOptions="StartAndExpand">
+                                        <Image 
+                                            Source="{Binding IconTask}" 
+                                            WidthRequest="50" HeightRequest="50"
+                                            Margin="0,0,10,0"/>
+                                        <StackLayout 
+                                            Orientation="Vertical" >
+                                            <Label Text="{Binding Category}" />
+                                            <Label 
+                                                Text="{Binding Name}" 
+                                                LineBreakMode="TailTruncation" 
+                                                WidthRequest="100"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

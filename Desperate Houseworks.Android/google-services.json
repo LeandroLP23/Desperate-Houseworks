@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "36283343699",
+    "project_id": "it-desperatehouseworks",
+    "storage_bucket": "it-desperatehouseworks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36283343699:android:affb080cfd51dfe2f777a6",
+        "android_client_info": {
+          "package_name": "it.desperatehouseworks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36283343699-vv8ek95g167pe8sihrg7eli65eu70ah2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEb579K72VKwo7ck0P6e_WsLyzHqm9ido"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36283343699-vv8ek95g167pe8sihrg7eli65eu70ah2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
